@@ -1,62 +1,90 @@
-# Expression-direct - Rede Neural de Movimentação
+# Reconhecimento de Gestos Manuais e Jogo de Labirinto
 
-Esta aplicação permite controlar uma bolinha em um labirinto utilizando movimentos da mão capturados pela webcam. A aplicação utiliza MediaPipe para detecção de mãos e um modelo de rede neural treinado para reconhecer gestos que indicam movimentos para a esquerda ou direita.
+Este projeto implementa um sistema de reconhecimento de gestos manuais utilizando a captura de vídeo por webcam. Ele permite que os usuários controlem uma bola dentro de um labirinto com base nos movimentos da mão. O sistema é construído usando técnicas de visão computacional e aprendizado de máquina, incluindo OpenCV, MediaPipe e TensorFlow.
 
-## Funcionalidades
+## Índice
+- [Instalação](#instalação)
+- [Uso](#uso)
+- [Como Funciona](#como-funciona)
+- [Treinamento do Modelo](#treinamento-do-modelo)
+- [Coleta de Dados](#coleta-de-dados)
+- [Dependências](#dependências)
+- [Licença](#licença)
 
-- **Detecção de Mãos**: Utiliza MediaPipe para detectar pontos de referência das mãos em tempo real.
-- **Treinamento do Modelo**: Coleta dados de movimentos de mãos e treina um modelo de rede neural para reconhecer gestos.
-- **Movimento da Bolinha**: Baseado nos gestos reconhecidos, a bolinha no labirinto se move para a esquerda ou direita.
+## Instalação
 
-## Requisitos
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/seuusuario/hand-gesture-maze-game.git
+   
+2. Navegue até o diretório do projeto:
+    ```bash
+    cd hand-gesture-maze-game
 
-- Python 3.7 ou superior
-- Webcam
+3. Instale os pacotes Python necessários:
+    ```bash
+    pip install -r requirements.txt
 
-### Bibliotecas Necessárias
+## Uso
 
-Instale as bibliotecas necessárias com o seguinte comando:
+Para executar o sistema de reconhecimento de gestos manuais e iniciar o jogo de labirinto, execute o seguinte comando:
+    
+1. Execução:
+    ```bash
+    python app.py
 
-```bash
-pip install opencv-python mediapipe tensorflow pandas scikit-learn
-```
-## Como Usar
+## Como Funciona
 
-1. Coletar Dados de Referência
-Execute a aplicação para coletar dados de movimentos de mão. Pressione a tecla 'a' para coletar dados para o movimento à esquerda e 'd' para o movimento à direita. Pressione 'q' para finalizar a coleta.
+1. **Detecção de Mãos**: O sistema utiliza o MediaPipe para detectar e rastrear os pontos de referência das mãos em tempo real.
 
-2. Treinar o Modelo
-Se os dados foram coletados com sucesso, o modelo será treinado automaticamente após finalizar a coleta pressionando 'q'. O modelo será salvo para uso posterior.
+2. **Coleta de Dados**: Os pontos de referência das mãos (coordenadas x e y) são coletados quando teclas específicas são pressionadas para rotular os movimentos (esquerda, direita, cima, baixo).
 
-3. Jogar o Jogo do Labirinto
-Após coletar e treinar o modelo, ou se um modelo pré-existente for carregado, a aplicação entrará no modo de jogo. Utilize os movimentos de mão para mover a bolinha no labirinto.
+3. **Treinamento do Modelo**: Um modelo de rede neural é treinado com os dados coletados para prever a direção do movimento da mão.
 
-## Estrutura do Projeto
+4. **Controle do Jogo**: O modelo treinado é usado para controlar o movimento de uma bola dentro da imagem de um labirinto. O movimento da bola é determinado pela direção do movimento da mão.
 
-* app.py: Arquivo principal da aplicação que coleta dados, treina o modelo e controla o jogo.
-* hand_gesture_model.h5: Arquivo de modelo treinado salvo.
-* hand_gesture_data.csv: Arquivo CSV que armazena os dados de treinamento coletados.
-* labirinto.png: Imagem do labirinto utilizada como fundo no jogo.
+## Treinamento do Modelo
 
-## Exemplo de Uso
+Se você não tiver um modelo pré-treinado, precisará coletar dados e treinar o modelo:
 
-1. Execute a aplicação para coletar dados de referência:
+1. **Coleta de Dados**:
 
-```bash
-python app.py
-```
+    * Execute o programa e pressione as seguintes teclas para coletar dados de movimento:
+        * 'a': Coleta dados para o movimento à esquerda.
+        * 'd': Coleta dados para o movimento à direita.
+        * 'w': Coleta dados para o movimento para cima.
+        * 's': Coleta dados para o movimento para baixo.
+        * Pressione 'q' para parar a coleta de dados.
 
-* Coloque sua mão na frente da webcam e pressione 'a' para coletar dados de movimentos para a esquerda.
-* Pressione 'd' para coletar dados de movimentos para a direita.
-* Pressione 'q' para finalizar a coleta e treinar o modelo.
+2. **Treinamento do Modelo**:
 
-2. Após o treinamento, a aplicação entrará no modo de jogo. Use os movimentos da mão para mover a bolinha no labirinto.
+    * Se não houver um modelo existente, o programa automaticamente treinará um modelo usando os dados coletados e o salvará como hand_gesture_model.h5.
 
-## Nota
+    * O modelo será avaliado nos dados de teste, e sua precisão será exibida.
+    
+3. Jogando o Jogo:
 
-Se a imagem do labirinto não for exibida corretamente, verifique se o arquivo labirinto.png está no mesmo diretório que o arquivo app.py.
+    Após o treinamento do modelo, a bola dentro do labirinto poderá ser controlada com base nos movimentos da sua mão em frente à webcam.
+    
+## Coleta de Dados
 
-## Problemas Conhecidos
+A coleta de dados é crucial para a precisão do modelo. Certifique-se de coletar amostras suficientes para cada direção a fim de treinar o modelo de forma eficaz. Os dados coletados são salvos em um arquivo CSV (hand_gesture_data.csv), que é usado para o treinamento.
 
-* A precisão do modelo pode variar dependendo da quantidade e qualidade dos dados coletados.
-* Certifique-se de que a webcam está funcionando corretamente e que há iluminação adequada para uma melhor detecção das mãos.
+## Dependências
+
+O projeto depende das seguintes bibliotecas:
+
+* OpenCV
+* MediaPipe
+* NumPy
+* Pandas
+* TensorFlow
+* Scikit-learn
+
+    Você pode instalar todas as dependências usando:
+    ```bash
+    pip install -r requirements.txt
+
+## Licença
+
+Este projeto é licenciado sob a Licença MIT - veja o arquivo LICENSE para mais detalhes.
